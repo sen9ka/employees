@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<div th:each="employee : ${employees}">
+    <a th:href="@{/employees/{id}(id=${employee.getId()})}"
+       th:text="${employee.getFirstName() + ' ' + employee.getSecondName() + ' ' + employee.getPatronymic()}">user</a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="/employees/new">Добавить человека</a>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Show</title>
+</head>
+<body>
+<p th:text="${department.getName()}">VALUE</p>
+
+<div th:if="${ownerDepartment}">
+  <span>Подразделение находится в подчинении у: </span> <span th:text="${ownerDepartment.getName()}">PersonOwner Department Name</span>
+
+  <form th:method="PATCH" th:action="@{/departments/{id}/release(id=${department.getId()})}">
+    <input type="submit" value="Освободить подразделение"/>
+  </form>
+</div>
+
+<div th:if="${departments}">
+  <span>Это подразделение не находится в подченении. Можно указать подразделение - родителя</span>
+  <form th:method="PATCH" th:action="@{/departments/{id}/assign(id=${department.getId()})}">
+    <label for="department">Выберите подразделение</label>
+    <select th:object="${department}" th:field="*{id}" id="department">
+      <option th:each="department : ${departments}" th:value="${department.getId()}" th:text="${department.getName()}">
+      </option>
+    </select>
+    <input type="submit" value="Назначить подразделение-родителя"/>
+  </form>
+</div>
+
+<hr/>
+
+<form th:method="GET" th:action="@{/departments/{id}/edit(id=${department.getId()})}">
+  <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/departments/{id}(id=${department.getId()})}">
+  <input type="submit" value="Удалить"/>
+</form>
+
+<!-- Форма для выбора периода -->
+<h2>Список сотрудников за период</h2>
+<form th:action="@{/departments/employees/period}" method="get">
+  <input type="hidden" name="departmentId" th:value="${department.getId()}"/>
+  <label for="startDate">Дата начала:</label>
+  <input type="date" id="startDate" name="startDate" required/>
+  <label for="endDate">Дата окончания:</label>
+  <input type="date" id="endDate" name="endDate" required/>
+  <input type="submit" value="Показать сотрудников"/>
+</form>
+
+<!-- Вывод списка сотрудников -->
+<div th:if="${employees}">
+  <h3>Сотрудники:</h3>
+  <ul>
+    <li th:each="employee : ${employees}">
+      <span th:text="${employee.getFirstName()} + ' ' + ${employee.getSecondName()} + ' ' + ${employee.getPatronymic()}"></span>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>

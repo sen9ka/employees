@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Show</title>
+</head>
+<body>
+<p th:text="${employee.getFirstName() + ' ' + employee.getSecondName() + ' ' + employee.getPatronymic()}">VALUE</p>
+
+<div th:if="${employee.getDepartment() == null}">
+    <span>Это сотрудник не состоит в подразделении. Можно указать подразделение</span>
+    <form th:method="PATCH" th:action="@{/employees/{id}/assign(id=${employee.getId()})}">
+        <label for="department">Выберите подразделение</label>
+        <select th:object="${department}" th:field="*{id}" id="department">
+            <option th:each="department : ${departments}" th:value="${department.getId()}" th:text="${department.getName()}">
+            </option>
+        </select>
+        <input type="submit" value="Назначить подразделение"/>
+    </form>
+</div>
+
+<div th:if="${employee.getDepartment() != null}">
+    <span>Сотрудник состоит в подразделении: </span> <span th:text="${employee.getDepartment().getName()}">Employee Department Name</span>
+
+    <form th:method="PATCH" th:action="@{/employees/{id}/release(id=${employee.getId()})}">
+        <input type="submit" value="Освободить сотрудника из подразделения"/>
+    </form>
+
+    <form th:method="PATCH" th:action="@{/employees/{id}/assign(id=${employee.getId()})}">
+        <label for="transferDepartment">Перевести в подразделение</label>
+        <select th:object="${department}" th:field="*{id}" id="transferDepartment">
+            <option th:each="department : ${departments}" th:value="${department.getId()}" th:text="${department.getName()}">
+            </option>
+        </select>
+        <input type="submit" value="Перевести"/>
+    </form>
+</div>
+
+<form th:method="GET" th:action="@{/employees/{id}/edit(id=${employee.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/employees/{id}(id=${employee.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+</head>
+<body>
+
+<form th:action="@{/departments/filter-by-date}" method="get">
+  <label for="filterDate">Выберите дату:</label>
+  <input type="date" id="filterDate" name="filterDate" required/>
+  <input type="submit" value="Показать подразделения"/>
+</form>
+
+<br/>
+<hr/>
+
+<div th:each="department : ${departments}">
+  <a th:href="@{/departments/{id}(id=${department.getId()})}"
+     th:text="${department.getName()}">department</a>
+</div>
+
+<br/>
+<hr/>
+
+<a href="/departments/new">Добавить подразделение</a>
+
+<button onclick="window.location.href='/departments/structure'">Показать структуру компании</button>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Structure</title>
+</head>
+<body>
+<h1>Структура компании</h1>
+<div th:each="department : ${departments}">
+    <h2 th:text="${department.getName()}"></h2>
+    <p>Сотрудники:</p>
+    <ul>
+        <li th:each="employee : ${department.getEmployees()}" th:text="${employee.getFirstName()} + ' ' + ${employee.getSecondName()}"></li>
+    </ul>
+    <div th:if="${department.getParentDepartment() != null}">
+        <p>Подразделение подчиняется: <span th:text="${department.getParentDepartment().getName()}"></span></p>
+    </div>
+</div>
+</body>
+</html>

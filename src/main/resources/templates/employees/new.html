@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>New person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/employees}" th:object="${employee}">
+    <label for="firstName">Введите имя: </label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</div>
+    <br/>
+    <label for="secondName">Введите фамилию: </label>
+    <input type="text" th:field="*{secondName}" id="secondName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}">Second Name Error</div>
+    <br/>
+    <label for="patronymic">Введите отчество: </label>
+    <input type="text" th:field="*{patronymic}" id="patronymic"/>
+    <div style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">Patronymic Name Error</div>
+    <br/>
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>
